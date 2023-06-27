@@ -1,0 +1,331 @@
+<!-- Tabdesign -->
+<head>
+  <title>Bünzli Clicker</title>
+  <link rel="icon" type="image/x-icon" href="schweiz.png">
+</head>
+
+<!-- Texte einfügen -->
+<div class="unselectable" id="counter_val">0</div>
+<div class="unselectable">Cervelats</div>
+
+<!-- Automtisch Source für die fliegende Cervelat und richtiges Bild für die jeweilige Stufe bei laden der Seite einfügen -->
+<img src="aromat.png" id="button" class="enlarge-image button"> 
+
+<script>
+  function changeImage() {
+    if (localStorage.getItem("berset_value_ls") === "1") {document.getElementById("button").src = "ovi.png";
+    } else if (localStorage.getItem("rivella_value_ls") === "1") {document.getElementById("button").src = "ovi.png";
+    } else if (localStorage.getItem("ricola_value_ls") === "1") {document.getElementById("button").src = "ovi.png";
+    } else if (localStorage.getItem("ovomlatine_value_ls") === "1") {document.getElementById("button").src = "ovi.png";
+    } else {document.getElementById("button").src = "aromat.png"}
+}
+</script>
+<script>
+window.onLoad = changeImage();
+</script>
+
+<!-- Background-Anpassung -->
+<script>
+  function changeBackground() {
+  if (localStorage.getItem("ovomaltine_value_ls") === "1") {document.body.style.backgroundImage = "url('buochs_wow.jpg')";
+  } else {document.body.style.backgroundImage = "url('schweiz_bg.jpg')";}
+}
+</script>
+<script>
+window.onLoad = changeBackground();
+</script>
+
+<!-- Styling von Texten und Bildern -->
+<style>
+  body{
+    background-image: url("schweiz_bg.jpg");
+    background-color: #cccccc;
+    background-size: cover;
+    font-size: 30px;
+    text-align: center;
+    font-family: Courier New;
+    color: black;
+  }
+    #counter_val {
+      top-margin: 50px;
+      left: 300px;
+      font-size: 60px;
+      font-weight: bold;
+      color: black;
+    }
+
+    .unselectable {
+      user-drag: none;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-drag: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+    .reset_button {
+      background-color: Transparent;
+      color: Transparent;
+      background-repeat:no-repeat;
+      border: none;
+      cursor:pointer;
+      overflow: hidden;
+      pointer-events: none;
+      user-drag: none;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-drag: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+</style>
+
+<!-- Styling für Button -->
+<style>
+  .enlarge-image {
+    transition: transform 0.5s ease;
+    margin: 50px;
+  }
+
+  .enlarge-image.enlarged {
+    transform: scale(1.3);
+  }
+
+  .button {
+    height: 55%;
+    margin: auto;
+    display: block;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+  #container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+  }
+
+  #image {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    transition: transform 1s;
+  }
+</style>
+
+<!-- Styling von Cervelat -->
+<style>
+  #container {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    o
+  }
+
+  .image {
+    width: 100px; /* Adjust image width as needed */
+  }
+</style>
+
+<!-- Javascript für Cervelat animation -->
+   <script>
+      document.getElementById("button").addEventListener("click", function() {
+        var container = document.getElementById("container");
+        var image = document.createElement("img");
+        image.src = "cervelat.png";
+        image.classList.add("image");
+
+        // Position the image at the initial click position
+        var rect = this.getBoundingClientRect();
+        var clickX = rect.left;
+        var clickY = rect.top;
+        image.style.left = clickX + "px";
+        image.style.top = clickY + "px";
+
+        // Append the new image to the container
+        container.appendChild(image);
+
+        // Generate random position for the image to fly off to
+        var destX = Math.random() * (window.innerWidth - image.width);
+        var destY = Math.random() * (window.innerHeight - image.height);
+
+        // Trigger the animation by applying a transform
+        setTimeout(function() {
+          image.style.transform = "translate(" + destX + "px, " + destY + "px)";
+        }, 1000);
+      });
+    </script>
+
+<!-- JavaScript, um den Counter zu erhöhen und den Wert fortlaufend ins LocalStorage zu speichern -->
+<script>
+  var multiplicator = 1
+  let counter = localStorage.getItem('counter_value_ls') || 0;
+  document.getElementById('counter_val').innerText = counter;
+
+  document.getElementById('button').onclick = () => {
+    counter = parseInt(counter) + (1 * multiplicator);
+    document.getElementById('counter_val').innerText = counter;
+    updateCounter();
+  };
+  changeBackground();
+  function updateCounter() {
+
+    localStorage.setItem('counter_value_ls', counter);
+    if (counter > 3999) {
+      var reset_button = document.getElementById("reset_button");
+      reset_button.classList.remove("reset_button");
+    }
+  };
+</script>
+
+<!-- JavaScript, um Animation bei Klick zu triggeren -->
+<script>
+  var button = document.getElementById('button');
+
+  button.addEventListener('click', function () {
+    button.classList.add('enlarged');
+    setTimeout(function () {
+      button.classList.remove('enlarged');
+    }, 300); // Adjust the duration (in milliseconds) to your desired value
+  });
+</script>
+
+<!-- Kaufmenü -->
+<button onClick="Aromat()" type="button" id="aromat_button">Aromat (0)</button>
+<button onClick="Berset()" type="button" id="berset_button">Berset (500)</button>
+<button onClick="Rivella()" type="button" id="rivella_button">Rivella (1000)</button>
+<button onClick="Ricola()" type="button" id="ricola_button">Ricola (1500)</button>
+<button onClick="Ovomaltine()" type="button" id="ovomaltine_button">Ovomaltine (4500)</button>
+<button onClick="localStorage.clear();location.reload()" type="button" id="reset_button" class="reset_button">Free shit</button>
+
+<!-- Styling für Kaufmenü -->
+<style>
+#aromat_button {
+  positon: fixed;
+  top: 10px;
+  left: 10px;
+}
+
+</style>
+
+
+<!-- Aromat -->
+<script>
+  function changeAromat() {
+    document.getElementById("button").src = "aromat.png";
+  }
+  function Aromat() {
+    if (counter >= 0) {
+      var element = document.getElementById("button");
+      element.classList.add("aromat");
+      multiplicator = 1;
+      changeAromat();
+      aromat = 1;
+    }
+  }
+</script>
+
+<!-- Berset -->
+<script>
+  let berset = localStorage.getItem('berset_value_ls') || 0;
+  function changeBerset() {
+    document.getElementById("button").src = "berset.jpg";
+  }
+  function Berset() {
+    if (counter >= 500 && berset < 1) {
+      var element = document.getElementById("button");
+      element.classList.add("berset");
+      multiplicator = 2;
+      changeBerset();
+      counter = counter - 500;
+      berset = 1;
+      localStorage.setItem('berset_value_ls', berset);
+      document.getElementById('counter_val').innerText = counter;
+      updateCounter();
+    }
+    else if (berset > 0) {
+      changeBerset();
+      multiplicator = 2;
+    }
+  }
+</script>
+
+<!-- Rivella -->
+<script>
+  let rivella = localStorage.getItem('rivella_value_ls') || 0;
+  function changeRivella() {
+    document.getElementById("button").src = "rivella.png";
+  }
+  function Rivella() {
+    if (counter >= 1000 && rivella < 1) {
+      var element = document.getElementById("button");
+      element.classList.add("rivella");
+      multiplicator = 4;
+      changeRivella();
+      counter = counter - 1000;
+      rivella = 1;
+      localStorage.setItem('rivella_value_ls', rivella);
+      document.getElementById('counter_val').innerText = counter;
+      updateCounter();
+    }
+    else if (rivella > 0) {
+      changeRivella();
+      multiplicator = 4;
+    }
+  }
+</script>
+
+<!-- Ricola -->
+<script>
+  let ricola = localStorage.getItem('ricola_value_ls') || 0;
+  function changeRicola() {
+    document.getElementById("button").src = "ricola.jpg";
+  }
+  function Ricola() {
+    if (counter >= 1500 && ricola < 1) {
+      var element = document.getElementById("button");
+      element.classList.add("ricola");
+      multiplicator = 8
+      changeRicola();
+      counter = counter - 1500;
+      ricola = 1;
+      localStorage.setItem('ricola_value_ls', ricola);
+      document.getElementById('counter_val').innerText = counter;
+      updateCounter();
+    }
+    else if (ricola > 0) {
+      changeRicola();
+      multiplicator = 8;
+    }
+  }
+</script>
+
+<!-- Ovomaltine -->
+<script>
+  let ovomaltine = localStorage.getItem('ovomaltine_value_ls') || 0;
+  function changeOvomaltine() {
+    document.getElementById("button").src = "ovi.png";
+  }
+  function Ovomaltine() {
+    if (counter >= 4500 && ovomaltine < 1) {
+      var element = document.getElementById("button");
+      element.classList.add("ovomaltine");
+      multiplicator = 20
+      changeOvomaltine();
+      counter = counter - 4500;
+      ovomaltine = 1;
+      localStorage.setItem('ovomaltine_value_ls', ovomaltine);
+      document.getElementById('counter_val').innerText = counter;
+      updateCounter();
+    }
+    else if (ovomaltine > 0) {
+      changeOvomaltine();
+      multiplicator = 20;
+    }
+  }
+</script>
